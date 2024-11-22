@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiszki</title>
+    <style>
+        /* Stylizacja ogólna */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #89cff0, #ffcccb);
+            color: #333;
+        }
+
+        /* Stylizacja fiszki */
+        .flashcard-container {
+            width: 350px;
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+            border: 2px solid #ffa500;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #444;
+            cursor: pointer;
+            transition: transform 0.4s, background 0.4s, box-shadow 0.4s;
+        }
+
+        .flashcard-container:hover {
+            transform: scale(1.1);
+            background: #ffe4b5;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Stylizacja przycisków */
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin: 10px;
+            background: #ffa500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #ff8c00;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Dodatkowe efekty */
+        #flashcard:active {
+            transform: scale(1.05) rotate(1deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flashcard-container" id="flashcard">
+        <span id="cardText">Kliknij, aby zobaczyć odpowiedź</span>
+    </div>
+
+    <div class="button-container">
+        <button onclick="previousCard()">Poprzednia</button>
+        <button onclick="nextCard()">Następna</button>
+    </div>
+
+    <script>
+        const flashcards = [
+            { question: "Stolica Polski", answer: "Warszawa" },
+            { question: "Pierwiastek o symbolu 'O'", answer: "Tlen" },
+            { question: "Najdłuższa rzeka świata", answer: "Amazonka" },
+            { question: "Największa planeta w Układzie Słonecznym", answer: "Jowisz" }
+        ];
+
+        let currentIndex = 0;
+        let showingAnswer = false;
+
+        function updateCard() {
+            const cardText = document.getElementById("cardText");
+            cardText.textContent = showingAnswer 
+                ? flashcards[currentIndex].answer 
+                : flashcards[currentIndex].question;
+        }
+
+        document.getElementById("flashcard").addEventListener("click", () => {
+            showingAnswer = !showingAnswer;
+            updateCard();
+        });
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            showingAnswer = false;
+            updateCard();
+        }
+
+        function previousCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            showingAnswer = false;
+            updateCard();
+        }
+
+        // Inicjalizacja pierwszej fiszki
+        updateCard();
+    </script>
+
+</body>
+</html>
